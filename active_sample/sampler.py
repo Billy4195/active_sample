@@ -1,3 +1,7 @@
+import numpy as np
+import pandas as pd
+from math import ceil
+
 class ActiveSampler(object):
     def __init__(self, num_sample_round=20, majority_ratio=5):
         self.num_sample_round = num_sample_round
