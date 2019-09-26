@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="active_sample",
-    version="0.0.1",
+    version="0.0.2",
     author="Billy Su",
     author_email="g4691821@gmail.com",
     description="An active learning sampler",
