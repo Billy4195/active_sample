@@ -23,9 +23,9 @@ class ActiveSampler(object):
 
         if self.init_all:
             self.sampled_x = self.sampled_x.append(self.minority)
-            self.sampled_y = self.sampled_y.append(y.loc[self.minority.index.tolist()])
+            self.sampled_y = self.sampled_y.append(y.loc[self.minority.index])
 
-            maj_bth_idxes = np.random.choice(self.majority.index.tolist(), size=self.minority.shape[0])
+            maj_bth_idxes = np.random.choice(self.majority.index, size=self.minority_num)
             self.sampled_x = self.sampled_x.append(self.majority.loc[maj_bth_idxes])
             self.sampled_y = self.sampled_y.append(y.loc[maj_bth_idxes])
             yield self.sampled_x, self.sampled_y
@@ -36,10 +36,10 @@ class ActiveSampler(object):
             self.false_prob_dist = None
 
             self.sampled_x = self.sampled_x.append(self.minority)
-            self.sampled_y = self.sampled_y.append(y.loc[self.minority.index.tolist()])
+            self.sampled_y = self.sampled_y.append(y.loc[self.minority.index])
         
         for i in range(self.num_sample_round):
-            maj_bth_idxes = np.random.choice(self.majority.index.tolist(),
+            maj_bth_idxes = np.random.choice(self.majority.index,
                                                  size=min(self.round_batch*self.majority_ratio, self.majority.shape[0]),
                                                  replace=False,
                                                  p=self.false_prob_dist)
@@ -49,8 +49,8 @@ class ActiveSampler(object):
             self.majority = self.majority.drop(index=maj_bth_idxes)
 
             if not self.init_all:
-                min_bth_idxes = np.random.choice(self.minority.index.tolist(),
-                                                    size=min(self.round_batch, self.minority.shape[0]),
+                min_bth_idxes = np.random.choice(self.minority.index,
+                                                    size=min(self.round_batch, self.minority_num),
                                                     replace=False)
                 self.sampled_x = self.sampled_x.append(self.minority.loc[min_bth_idxes])
                 self.sampled_y = self.sampled_y.append(y.loc[min_bth_idxes])
